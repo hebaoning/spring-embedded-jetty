@@ -6,6 +6,8 @@ import org.eclipse.jetty.annotations.AnnotationConfiguration.ClassInheritanceMap
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.WebApplicationInitializer;
 
 import java.util.Set;
@@ -15,7 +17,11 @@ import static org.eclipse.jetty.annotations.AnnotationConfiguration.CLASS_INHERI
 
 public class App {
 
+    private static final Logger logger = LoggerFactory.getLogger(App.class);
+
     public static void main( String[] args ) {
+        logger.debug("main");
+
         WebAppContext webAppContext = new WebAppContext();
         webAppContext.setConfigurations(
                 new Configuration[] {

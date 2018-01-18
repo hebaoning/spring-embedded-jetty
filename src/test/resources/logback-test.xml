@@ -1,0 +1,44 @@
+<configuration scan="true" scanPeriod="60 seconds" debug="true">
+
+    <property name="LOG_FILE" value="/tmp/temp.log" />
+    <property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%c:%L] - %m%n" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_FILE}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}</fileNamePattern>
+            <maxHistory>14</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.eclipse.jetty" level="INFO"/>
+    <logger name="org.eclipse.jetty.server.Server" level="INFO"/>
+    <logger name="org.eclipse.jetty.server.handler.ContextHandler" level="INFO"/>
+    <logger name="org.eclipse.jetty.server.HttpConnection" level="INFO"/>
+    <logger name="org.eclipse.jetty.server.HttpConnection" level="INFO"/>
+    <logger name="org.eclipse.jetty.server.HttpChannel" level="INFO"/>
+    <logger name="org.eclipse.jetty.server.HttpInput" level="INFO"/>
+    <logger name="org.eclipse.jetty.server.session" level="INFO"/>
+    <logger name="org.eclipse.jetty.server.handler.ResourceHandler" level="INFO"/>
+    <logger name="org.eclipse.jetty.http.HttpParser" level="INFO"/>
+    <logger name="org.eclipse.jetty.servlet.ServletHandler" level="INFO"/>
+    <logger name="org.eclipse.jetty.io.WriteFlusher" level="INFO"/>
+
+    <logger name="org.asynchttpclient.netty.request" level="INFO"/>
+    <logger name="org.asynchttpclient.netty.handler.HttpHandler" level="INFO"/>
+    <logger name="org.asynchttpclient.netty.channel.DefaultChannelPool" level="INFO"/>
+
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+</configuration>
