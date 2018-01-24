@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
@@ -32,6 +34,9 @@ public class HelloControllerTest {
     @Autowired
     private WebApplicationContext wac;
 
+    @Value("${app.name}")
+    private String name;
+
     private MockMvc mockMvc;
 
     @Before
@@ -45,7 +50,8 @@ public class HelloControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.name").value("hbn"));
+                .andExpect(jsonPath("$.age").exists())
+                .andExpect(jsonPath("$.name").value(name));
     }
 
 }
