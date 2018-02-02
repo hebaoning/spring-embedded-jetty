@@ -21,7 +21,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @MapperScan(basePackageClasses = {
-        demo.spring.dao.UserDao.class
+        demo.spring.mapper.UserMapper.class
 })
 @ComponentScan(basePackageClasses = {
         demo.spring.metric.MetricConfig.class,
