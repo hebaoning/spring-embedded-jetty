@@ -27,7 +27,7 @@ import javax.sql.DataSource;
         demo.spring.metric.MetricConfig.class,
         demo.spring.service.UserServiceImpl.class
 })
-@PropertySource("file:${config.dir:src/main/resources}/app_${spring.profiles.active:dev}.properties")
+@PropertySource("file:${config.dir:src/main/resources}/app-${spring.profiles.active:dev}.properties")
 public class RootConfig {
 
     @Value("${datasource.driverClassName}")
