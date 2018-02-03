@@ -1,9 +1,9 @@
 package demo.spring;
 
+import demo.spring.config.ServerConfig;
 import org.eclipse.jetty.annotations.AnnotationConfiguration;
 import org.eclipse.jetty.annotations.AnnotationConfiguration.ClassInheritanceMap;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.slf4j.Logger;
@@ -19,8 +19,7 @@ public class App {
 
     private static final Logger logger = LoggerFactory.getLogger(App.class);
     private static final App app = new App();
-
-    private final Server server = new Server();
+    private static final Server server = ServerConfig.getServer();
 
     public static App getInstance() {
         return app;
@@ -58,12 +57,6 @@ public class App {
 
     private void init(WebAppContext webAppContext) {
         server.setHandler(webAppContext);
-
-        // setup connector
-        ServerConnector http = new ServerConnector(server);
-        http.setPort(getServerPort());
-        server.addConnector(http);
-
         server.setStopAtShutdown(true);
     }
 
@@ -76,7 +69,4 @@ public class App {
         server.join();
     }
 
-    private int getServerPort() {
-        return Integer.parseInt(System.getProperty("server.port", "8010"));
-    }
 }
