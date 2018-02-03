@@ -1,10 +1,14 @@
 package demo.spring.config;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
@@ -37,70 +41,6 @@ public class DatabaseConfig {
     @Value("${db.minIdle}")
     private Integer minIdle;
 
-    public String getDriverClassName() {
-        return driverClassName;
-    }
-
-    public void setDriverClassName(String driverClassName) {
-        this.driverClassName = driverClassName;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Integer getInitialSize() {
-        return initialSize;
-    }
-
-    public void setInitialSize(Integer initialSize) {
-        this.initialSize = initialSize;
-    }
-
-    public Integer getMaxTotal() {
-        return maxTotal;
-    }
-
-    public void setMaxTotal(Integer maxTotal) {
-        this.maxTotal = maxTotal;
-    }
-
-    public Integer getMaxIdle() {
-        return maxIdle;
-    }
-
-    public void setMaxIdle(Integer maxIdle) {
-        this.maxIdle = maxIdle;
-    }
-
-    public Integer getMinIdle() {
-        return minIdle;
-    }
-
-    public void setMinIdle(Integer minIdle) {
-        this.minIdle = minIdle;
-    }
-
     @Bean
     @Profile("dev")
     public DataSource EmbeddedDataSource() {
@@ -126,4 +66,5 @@ public class DatabaseConfig {
         db.setMinIdle(minIdle);
         return db;
     }
+
 }
