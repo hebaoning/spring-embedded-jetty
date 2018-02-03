@@ -1,13 +1,12 @@
 package demo.spring.controller;
 
-import demo.spring.config.RootConfig;
-import demo.spring.config.WebConfig;
+import demo.spring.RootConfig;
+import demo.spring.WebConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;

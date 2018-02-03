@@ -1,15 +1,13 @@
 package demo.spring;
 
-import demo.spring.config.WebInitializer;
 import org.eclipse.jetty.annotations.AnnotationConfiguration;
 import org.eclipse.jetty.annotations.AnnotationConfiguration.ClassInheritanceMap;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.web.WebApplicationInitializer;
 
 import java.util.Set;
@@ -20,10 +18,18 @@ import static org.eclipse.jetty.annotations.AnnotationConfiguration.CLASS_INHERI
 public class App {
 
     private static final Logger logger = LoggerFactory.getLogger(App.class);
+    private static final App app = new App();
 
-    public static void main( String[] args ) {
-        logger.debug("main");
+    private final Server server = new Server();
 
+    public static App getInstance() {
+        return app;
+    }
+
+    public static void main(String[] args) throws Exception {
+        logger.info("start application");
+
+        // setup handler
         WebAppContext webAppContext = new WebAppContext();
         webAppContext.setConfigurations(
                 new Configuration[] {
@@ -33,21 +39,44 @@ public class App {
 
         Set<String> hashSet = ConcurrentHashMap.newKeySet();
         hashSet.add(WebInitializer.class.getName());
-
         ClassInheritanceMap classInheritanceMap = new ClassInheritanceMap();
         classInheritanceMap.put(WebApplicationInitializer.class.getName(), hashSet);
 
         webAppContext.setAttribute(CLASS_INHERITANCE_MAP, classInheritanceMap);
 
-        Server server = new Server(8010);
+        try {
+            app.init(webAppContext);
+            app.start();
+        } catch (Exception e) {
+            logger.error("failed to start application", e);
+            Runtime.getRuntime().exit(-1);
+        }
+        app.join();
+    }
+
+    private App() { }
+
+    private void init(WebAppContext webAppContext) {
         server.setHandler(webAppContext);
 
-        try {
-            server.start();
-            server.dump(System.err);
-            server.join();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // setup connector
+        ServerConnector http = new ServerConnector(server);
+        http.setPort(getServerPort());
+        server.addConnector(http);
+
+        server.setStopAtShutdown(true);
+    }
+
+    private void start() throws Exception {
+        server.start();
+        logger.info(server.dump());
+    }
+
+    private void join() throws Exception {
+        server.join();
+    }
+
+    private int getServerPort() {
+        return Integer.parseInt(System.getProperty("server.port", "8010"));
     }
 }

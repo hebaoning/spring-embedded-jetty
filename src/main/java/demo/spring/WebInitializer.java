@@ -1,4 +1,4 @@
-package demo.spring.config;
+package demo.spring;
 
 import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;

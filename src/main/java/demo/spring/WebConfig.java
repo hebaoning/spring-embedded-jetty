@@ -1,4 +1,4 @@
-package demo.spring.config;
+package demo.spring;
 
 import com.ryantenney.metrics.spring.config.annotation.EnableMetrics;
 import org.springframework.context.annotation.ComponentScan;
